@@ -53,3 +53,6 @@ if __name__ == '__main__':
 
     print("ReduceRDD", RDD1.reduce(lambda x, y: x + y))
     print("ReduceDistinctRDD", RDD1.distinct().reduce(lambda x, y: x + y))
+
+    RDD3 = spark.sparkContext.parallelize(['gaurav', 'saurabh', 'ashish', 'ricky'])
+    print(RDD3.filter(lambda x: 'a' in x).collect())
