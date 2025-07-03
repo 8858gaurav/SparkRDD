@@ -1,6 +1,6 @@
-import pyspark # type: ignore
-from pyspark.sql.functions import * # type: ignore
-from pyspark.sql import SparkSession # type: ignore
+import pyspark
+from pyspark.sql.functions import * 
+from pyspark.sql import SparkSession 
 import getpass
 username = getpass.getuser()
 print(username)
