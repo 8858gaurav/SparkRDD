@@ -96,6 +96,11 @@ if __name__ == '__main__':
     print("Variance of RDD11:", RDD11.variance())
     print("Standard Deviation of RDD11:", RDD11.stdev())
 
+
+    # will create a new table in the warehouse directory, will create the same no of files as the no of partitions
+    # saveAsTextFile will work only with RDDs, not with DataFrames
+    RDD8.saveAsTextFile("/Users/gauravmishra/Desktop/adding/SparkRDD-2/output/output_rdd8")
+
     time.sleep(3600)  # Keep the Spark session alive for an hour
     spark.stop()
     print("Spark session stopped")
