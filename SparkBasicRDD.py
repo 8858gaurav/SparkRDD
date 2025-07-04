@@ -1,7 +1,7 @@
 import pyspark
 from pyspark.sql.functions import * 
 from pyspark.sql import SparkSession 
-import getpass
+import getpass, time
 username = getpass.getuser()
 print(username)
 
@@ -56,3 +56,46 @@ if __name__ == '__main__':
 
     RDD3 = spark.sparkContext.parallelize(['gaurav', 'saurabh', 'ashish', 'ricky'])
     print(RDD3.filter(lambda x: 'a' in x).collect())
+    print("sorting RDD3", RDD3.sortBy(lambda x: x, ascending= True).collect())
+    print("RDD3 No Of Partitions:", RDD3.getNumPartitions())
+
+    # Grouping and aggregating on RDD
+    RDD4 = spark.sparkContext.parallelize([('a', 1), ('b', 2), ('a', 3), ('b', 4)])
+    for k, v in  RDD4.groupBy(lambda x: x[0]).collect():
+        print(k, ([i[1] for i in list(v)]))
+
+    # Zip operation on RDD
+    RDD5 = spark.sparkContext.parallelize([1, 2, 3])
+    RDD6 = spark.sparkContext.parallelize(['a', 'b', 'c'])
+    print("Zipped RDD:", RDD5.zip(RDD6).collect())
+
+    # repartitioning RDD
+    RDD7 = spark.sparkContext.parallelize([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    RDD8 = RDD7.repartition(10)
+    print("RDD7 Partitions:", RDD7.getNumPartitions())
+    print("RDD8 Partitions:", RDD8.getNumPartitions())
+    print("RDD7 Data:", RDD7.foreachPartition(lambda x: print(list(x))))
+    print("RDD8 Data:", RDD8.foreachPartition(lambda x: print(list(x))))
+
+    # Coalesce operation on RDD
+    RDD9 = spark.sparkContext.parallelize([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    RDD10 = RDD9.coalesce(1)
+    print("RDD9 Partitions:", RDD9.getNumPartitions())
+    print("RDD10 Partitions:", RDD10.getNumPartitions())
+    print("RDD9 Data:", RDD9.foreachPartition(lambda x: print(list(x))))
+    print("RDD10 Data:", RDD10.foreachPartition(lambda x: print(list(x))))
+
+
+    # Mathematical operations on RDD
+    RDD11 = spark.sparkContext.parallelize([1, 2, 3, 4, 5])
+    print("Sum of RDD11:", RDD11.sum())
+    print("Mean of RDD11:", RDD11.mean())
+    print("Max of RDD11:", RDD11.max()) 
+    print("Min of RDD11:", RDD11.min())
+    print("Count of RDD11:", RDD11.count())
+    print("Variance of RDD11:", RDD11.variance())
+    print("Standard Deviation of RDD11:", RDD11.stdev())
+
+    time.sleep(3600)  # Keep the Spark session alive for an hour
+    spark.stop()
+    print("Spark session stopped")
