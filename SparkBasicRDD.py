@@ -99,7 +99,26 @@ if __name__ == '__main__':
 
     # will create a new table in the warehouse directory, will create the same no of files as the no of partitions
     # saveAsTextFile will work only with RDDs, not with DataFrames
-    RDD8.saveAsTextFile("/Users/gauravmishra/Desktop/adding/SparkRDD-2/output/output_rdd8")
+    RDD8.saveAsTextFile("/Users/gauravmishra/Desktop/SparkRDD/Output/output_rdd8")
+
+
+    #caching in RDD
+    RDD8.cache()
+    print("RDD8 cached")
+    print("RDD8 Data after caching:", RDD8.collect())
+    print(RDD8.getStorageLevel(), "RDD8 is cached in memory", RDD8.is_cached, RDD8.getNumPartitions())
+
+
+    #persisting in RDD
+
+
+    # StorageLevel.MEMORY_ONLY_2 'Memory Serialized 2x Replicated'
+    #StorageLevel.MEMORY_AND_DISK_2 'Memory and Disk Serialized 2x Replicated'
+    RDD8.unpersist() # to remove the previous cache
+    RDD8.persist(pyspark.StorageLevel.MEMORY_AND_DISK_2)
+    print("RDD8 persisted")
+    print("RDD8 Data after persisting:", RDD8.collect())
+    print(RDD8.getStorageLevel(), "RDD8 is persisted in memory and disk", RDD8.is_cached, RDD8.getNumPartitions())
 
     time.sleep(3600)  # Keep the Spark session alive for an hour
     spark.stop()
