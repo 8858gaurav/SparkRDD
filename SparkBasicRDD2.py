@@ -95,3 +95,6 @@ if __name__ == '__main__':
    # ('spark.serializer.objectStreamReset', '100'),
    # ('spark.sql.catalogImplementation', 'hive'),
    # ('spark.ui.showConsoleProgress', 'true')]
+
+
+   time.sleep(360000)
